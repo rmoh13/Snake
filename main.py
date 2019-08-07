@@ -11,10 +11,8 @@ class Snake:
         self.direction = initial_direction
 
     def take_step(self, position):
-        self.body[0] = position
         # we'll say the head is the last position in the coordinates of the body
-        self.body = self.body[1:]
-        self.body.append(position)
+        self.body = self.body[1:] + [position]
 
     #@set_direction.setter
     def set_direction(self, direction):
@@ -70,17 +68,21 @@ class Game:
             print("|")
         self.print_board_border(len(matrix[0]))
 
+    def renderBoard(self):
+        matrix = self.board_matrix()
         body = self.snake.get_body()
         head = self.snake.get_head()
+        #print(head)
         self.print_board_border(len(matrix[0]))
         for i in range(0, len(matrix)):
             print("|", end = "")
             for j in range(0, len(matrix[0])):
                 for k in range(0, len(body)):
-                    if body[k][0] == j and body[k][1] == i:
+                    if abs(body[k][0]) == j and abs(body[k][1]) == i:
                         if body[k] != head:
                             matrix[i][j] = "O"
-                        else:
+                        elif body[k] == head:
+                            #print("\nyo")
                             matrix[i][j] = "X"
                 if matrix[i][j] == None:
                     print(" ", end = "")
@@ -90,6 +92,32 @@ class Game:
         self.print_board_border(len(matrix[0]))
 
 
+def main():
+    game = Game(10,10)
+    print("Welcome to the Game of Snake in the Microsoft Windows Terminal!\nUse the WASD Keys to move where WASD = UP, LEFT, DOWN, RIGHT and press enter after you type your move!")
+    game.render()
+    game.renderBoard()
+    def accept_input():
+        while True:
+            move = input("Enter your move: ")
+            if move == "W":
+                direction = UP
+            elif move == "A":
+                direction = LEFT
+            elif move == "S":
+                direction = DOWN
+            elif move == "D":
+                direction = RIGHT
+            board = game.snake.get_body()
+            head = game.snake.get_head()
+            game.snake.set_direction(direction)
+            #print(head)
+            #print(direction)
+            new_head = (head[0] + direction[0], head[1] + direction[1])
+            #print(new_head)
+            game.snake.take_step(new_head)
+            print(game.snake.get_body())
+            game.renderBoard()
+    accept_input()
 
-game = Game(10,10)
-game.render()
+main()
