@@ -1,4 +1,4 @@
-
+import sys
 
 UP = (0,1)
 DOWN = (0,-1)
@@ -84,6 +84,9 @@ class Game:
                         elif body[k] == head:
                             #print("\nyo")
                             matrix[i][j] = "X"
+                    elif abs(body[k][0]) >= len(matrix) or abs(body[k][1]) >= len(matrix):
+                        raise ValueError("You died!")
+                        sys.exit()
                 if matrix[i][j] == None:
                     print(" ", end = "")
                 else:
