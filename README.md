@@ -1,2 +1,2 @@
 # Snake
-ASCII Snake Game in the Terminal
+VERY OLD PROJECT: ASCII Snake Game in the Terminal
